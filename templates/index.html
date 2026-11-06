@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banking Products</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f6fa; padding: 16px; }
+    form { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    input, select, button { padding: 8px; }
+    .grid { display: grid; gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+    .card { background: white; padding: 16px; border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+    .Active { color: green; }
+    .Pre-approved { color: orange; }
+  </style>
+</head>
+<body>
+  <h1>Banking Products Dashboard</h1>
+
+  <form>
+    <input name="search" value="{{ search }}" placeholder="Search products">
+    <select name="category" onchange="this.form.submit()">
+      {% for c in ["All", "Savings", "Credit Card", "Loan", "Wealth"] %}
+        <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+      {% endfor %}
+    </select>
+    <button>Search</button>
+  </form>
+
+  <div class="grid">
+    {% for p in products %}
+      <div class="card">
+        <h3>{{ p.name }}</h3>
+        <p>Category: {{ p.category }}</p>
+        <p>Status: <b class="{{ p.status }}">{{ p.status }}</b></p>
+        <p>{{ p.metric }}</p>
+        <button>{{ p.button }}</button>
+      </div>
+    {% else %}
+      <p>No products found</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
